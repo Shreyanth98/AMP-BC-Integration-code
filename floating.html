@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AMP Brand Concierge floating</title>
+
+  <!--
+    AMP Brand Concierge: reference host page.
+    This file shows the exact order of the integration. On the real AMP page, copy only the marked parts:
+      1. Web SDK base code and the alloy.min.js script (skip if the AMP page already loads the Web SDK as "alloy")
+      2. alloy("configure", ...)           with AMP's datastream ID
+      3. styleConfigurations.js, then main.js
+      4. the mount element and the bootstrap call, placed where the concierge should appear
+      5. amp-bc-overrides.css in the site stylesheet
+    There is no mock of the AMP site in this file. It only hosts the concierge so it can be checked on its own.
+  -->
+
+  <!-- 1. Web SDK base code (creates the "alloy" command queue) -->
+  <script>
+    !function (n, o) {
+      o.forEach(function (o) {
+        n[o] || ((n.__alloyNS = n.__alloyNS || []).push(o), n[o] = function () {
+          var u = arguments;
+          return new Promise(function (i, l) { n[o].q.push([i, l, u]); });
+        }, n[o].q = []);
+      });
+    }(window, ["alloy"]);
+  </script>
+  <script src="https://cdn1.adoberesources.net/alloy/2.35.1/alloy.min.js"></script>
+
+  <!-- 3. Styling configuration, then the Brand Concierge web client (Adobe CDN) -->
+  <script src="new-customer/styleConfigurations.js"></script>
+  <script src="https://experience.adobe.net/solutions/experience-platform-brand-concierge-web-agent/static-assets/main.js"></script>
+
+  <!-- 5. Site styling for fonts and colours (Hurme Geometric Sans and Open Sans already load on amp.com.au) -->
+  <link rel="stylesheet" href="amp-bc-overrides.css">
+  <link rel="stylesheet" href="amp-bc-floating.css">
+
+  <!-- 2. Web SDK configuration -->
+  <script>
+    alloy("configure", {
+      defaultConsent: "in",
+      edgeDomain: "edge.adobedc.net",
+      edgeBasePath: "ee",
+      datastreamId: "09688f37-1fb3-4085-8d12-1ddf16422fe3",      // datastream AMP's UAT site uses (same value as Composer's deploy script)
+      orgId: "11BA6EA55322342B0A490D44@AdobeOrg",          // AMP SERVICES LIMITED
+      idMigrationEnabled: false,
+      thirdPartyCookiesEnabled: false,
+      conversation: { region: "aus5" }       // routes Brand Concierge calls to AMP's Australian region
+    });
+    alloy("sendEvent", {});
+  </script>
+</head>
+
+<body style="margin:0; background:#ffffff;">
+
+  <!-- Floating component: no mount element here. amp-bc-floating.js adds the bar and panel to the page. -->
+  <script src="amp-bc-floating.js"></script>
+</body>
+</html>

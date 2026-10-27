@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AMP Brand Concierge (Lifetime Boost - Existing Customer)</title>
+
+  <!--
+    AMP Brand Concierge: reference host page.
+    This file shows the exact order of the integration. On the real AMP page, copy only the marked parts:
+      1. Web SDK base code and the alloy.min.js script (skip if the AMP page already loads the Web SDK as "alloy")
+      2. alloy("configure", ...)           with AMP's datastream ID
+      3. styleConfigurations.js, then main.js
+      4. the mount element and the bootstrap call, placed where the concierge should appear
+      5. amp-bc-overrides.css in the site stylesheet
+    There is no mock of the AMP site in this file. It only hosts the concierge so it can be checked on its own.
+  -->
+
+  <!-- 1. Web SDK base code (creates the "alloy" command queue) -->
+  <script>
+    !function (n, o) {
+      o.forEach(function (o) {
+        n[o] || ((n.__alloyNS = n.__alloyNS || []).push(o), n[o] = function () {
+          var u = arguments;
+          return new Promise(function (i, l) { n[o].q.push([i, l, u]); });
+        }, n[o].q = []);
+      });
+    }(window, ["alloy"]);
+  </script>
+  <script src="https://cdn1.adoberesources.net/alloy/2.35.1/alloy.min.js"></script>
+
+  <!-- 3. Styling configuration, then the Brand Concierge web client (Adobe CDN) -->
+  <script src="styleConfigurations.js"></script>
+  <script src="https://experience.adobe.net/solutions/experience-platform-brand-concierge-web-agent/static-assets/main.js"></script>
+
+  <!-- 5. Site styling for fonts and colours (Hurme Geometric Sans and Open Sans already load on amp.com.au) -->
+  <link rel="stylesheet" href="../amp-bc-overrides.css">
+  <!-- Reference page only: on the AMP site Open Sans and Hurme Geometric Sans already load, so remove the next line there. -->
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <style>html, body { margin: 0; } /* reference page only: fill the screen so the block does not look half-finished */ body { min-height: 100vh; background: linear-gradient(135deg, #e9f0fb 0%, #fbeef5 100%); }</style>
+
+  <!-- 2. Web SDK configuration -->
+  <script>
+    alloy("configure", {
+      defaultConsent: "in",
+      edgeDomain: "edge.adobedc.net",
+      edgeBasePath: "ee",
+      datastreamId: "09688f37-1fb3-4085-8d12-1ddf16422fe3",      // datastream AMP's UAT site uses, bound to the concierge "AMP - Lifetime Boost - New Customer - PoC v1.0" (used for both audiences until the Existing Customer concierge exists). Same value as Composer's deploy script.
+      orgId: "11BA6EA55322342B0A490D44@AdobeOrg",          // AMP SERVICES LIMITED
+      idMigrationEnabled: false,
+      thirdPartyCookiesEnabled: false,
+      conversation: { region: "aus5" }       // routes Brand Concierge calls to AMP's Australian region (from the Composer deploy script)
+    });
+    alloy("sendEvent", {});
+  </script>
+</head>
+
+<body style="margin:0;">
+
+  <!-- 4. Mount element: put this where the concierge should appear on the page -->
+  <section class="amp-bc-section">
+    <div id="amp-bc-mount"></div>
+  </section>
+
+  <script>
+    window.adobe.concierge.bootstrap({
+      instanceName: "alloy",
+      stylingConfigurations: window.styleConfiguration,
+      selector: "#amp-bc-mount",
+      stickySession: false
+    });
+  </script>
+</body>
+</html>

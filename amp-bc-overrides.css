@@ -1,0 +1,152 @@
+/*
+ * AMP Brand Concierge: host page styling.
+ * Add to the AMP site stylesheet (or the page component that hosts the concierge).
+ * Everything is scoped to #amp-bc-mount so nothing else on the page is affected.
+ *
+ * Fonts are not uploaded to Brand Concierge. They come from the AMP site, where both are already loaded
+ * (Kyle's inspect screenshots on amp.com.au):
+ *   headings: "Hurme Geometric Sans-SemiBold", 44px, #001E41
+ *   body:     "Open Sans", Arial, serif, sans-serif, 18px, #4C617A
+ * The concierge exposes one font-family variable (set in styleConfigurations.js for Open Sans),
+ * so the heading font and colour are applied here.
+ */
+
+#amp-bc-mount {
+  font-family: "Open Sans", Arial, serif, sans-serif;
+  font-size: 18px;
+  color: #4c617a;
+}
+
+/* Wrapper around the mount element: owns the background and the space around the concierge, so the block
+   sizes to its content and the heading is never pressed against the edge. Place the mount element inside it. */
+.amp-bc-section {
+  background: linear-gradient(135deg, #e9f0fb 0%, #fbeef5 100%);
+  padding: 56px 16px 48px;
+  box-sizing: border-box;
+}
+@media (max-width: 767px) {
+  .amp-bc-section { padding: 32px 12px 28px; }
+}
+
+/* Welcome heading: Hurme Geometric Sans SemiBold, 44px, navy */
+#amp-bc-mount .example-heading {
+  font-family: "Hurme Geometric Sans-SemiBold", "Open Sans", Arial, sans-serif !important;
+  font-weight: 600 !important;
+  font-size: 44px !important;
+  line-height: 1.2 !important;
+  color: #001e41 !important;
+}
+
+/* Welcome description, starter prompts, input and answers: Open Sans Regular 18px, slate */
+#amp-bc-mount .example-subheading,
+#amp-bc-mount .bc-prompt-pill-button__text,
+#amp-bc-mount .chat-input,
+#amp-bc-mount .message-text,
+#amp-bc-mount .message-content {
+  font-family: "Open Sans", Arial, serif, sans-serif !important;
+  font-weight: 400 !important;
+  font-size: 18px !important;
+  color: #4c617a !important;
+}
+
+/* Prompt cards: image on top, text below, soft shadow (same cards as the Composer preview) */
+#amp-bc-mount .bc-card {
+  border-radius: 16px !important;
+  box-shadow: 0 2px 10px rgba(0, 30, 65, 0.08) !important;
+  overflow: hidden !important;
+}
+#amp-bc-mount .bc-card:hover {
+  box-shadow: 0 6px 18px rgba(0, 30, 65, 0.16) !important;
+}
+
+/* Text on the image cards is white, as in the Composer preview, so it reads on the blue card backgrounds */
+#amp-bc-mount .bc-card__text {
+  font-family: "Open Sans", Arial, serif, sans-serif !important;
+  font-weight: 600 !important;
+  font-size: 18px !important;
+  line-height: 1.35 !important;
+  color: #ffffff !important;
+}
+@media (max-width: 767px) {
+  #amp-bc-mount .bc-card__text { font-size: 16px !important; }
+}
+
+/* Keep the input bar above scrolled content. Its surroundings stay transparent so the section gradient shows. */
+#amp-bc-mount .input-container {
+  position: relative !important;
+  z-index: 50 !important;
+  background: #ffffff !important;   /* the input pill itself stays white */
+}
+#amp-bc-mount .input-section,
+#amp-bc-mount .message-blocker {
+  background: transparent !important;
+}
+
+/* Mobile: scale the 44px heading down so it does not wrap badly */
+@media (max-width: 767px) {
+  #amp-bc-mount .example-heading {
+    font-size: 28px !important;
+  }
+  #amp-bc-mount .example-subheading,
+  #amp-bc-mount .bc-prompt-pill-button__text,
+  #amp-bc-mount .chat-input,
+  #amp-bc-mount .message-text,
+  #amp-bc-mount .message-content {
+    font-size: 16px !important;
+  }
+}
+
+/* Follow-up suggestions (the buttons shown after an answer), per Kyle's colour spec:
+   background #FFFFFF, hover background #6CE1FF, text #001E41. Composer cannot set the hover text or the outline, so they are set here. */
+#amp-bc-mount .bc-prompt-suggestion-button {
+  background: #ffffff !important;
+  color: #001e41 !important;
+  border: 1px solid #001e41 !important;
+  border-radius: 20px !important;
+  font-family: "Open Sans", Arial, sans-serif !important;
+}
+#amp-bc-mount .bc-prompt-suggestion-button .bc-prompt-suggestion-button__text {
+  color: #001e41 !important;
+  font-size: 16px !important;
+}
+#amp-bc-mount .bc-prompt-suggestion-button:hover,
+#amp-bc-mount .bc-prompt-suggestion-button:focus-visible {
+  background: #6ce1ff !important;
+  color: #001e41 !important;
+  border-color: #001e41 !important;
+}
+
+/* Fine print / privacy message colour (Kyle: "how to update colour of privacy message") */
+#amp-bc-mount .disclaimer-text,
+#amp-bc-mount .disclaimer-message {
+  color: #4c617a !important;
+}
+#amp-bc-mount .disclaimer-link,
+#amp-bc-mount .disclaimer-text a {
+  color: #001e41 !important;
+}
+
+/* Chat mode: keep the section's gradient instead of the client's grey panel */
+#amp-bc-mount .brand-concierge-container,
+#amp-bc-mount .brand-concierge-container.active-state {
+  background: transparent !important;
+}
+
+/* The privacy notice message renders as an empty rounded box when its title and text are empty.
+   AMP's fine print is shown under the input instead (Kyle's design), so hide the empty notice. */
+#amp-bc-mount .privacy-notice-message {
+  display: none !important;
+}
+
+/* The client fades the bottom of the chat into grey (#f8f9fa) with an overlay. On the gradient background that
+   shows as a lighter band, so remove the overlay. */
+#amp-bc-mount .brand-concierge-container::after {
+  background: none !important;
+  display: none !important;
+}
+
+/* Card images fit the card instead of being cropped (this rule is in the integration code Composer generates) */
+.bc-card__image {
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+}

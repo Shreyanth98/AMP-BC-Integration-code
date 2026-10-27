@@ -1,0 +1,133 @@
+/*
+ * AMP Brand Concierge: floating component styling (pairs with amp-bc-floating.js).
+ * Dark navy bar fixed at the bottom of the page, per Kyle's "Brand Concierge floating Component" design.
+ * Fonts and colours follow the AMP site: Open Sans, navy #001E41, slate #4C617A.
+ */
+
+.amp-bc-float {
+  position: fixed;
+  z-index: 2147483000;
+  left: 0;
+  right: 0;
+  bottom: 16px;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;                       /* only the bar and panel take clicks */
+  font-family: "Open Sans", Arial, sans-serif;
+}
+.amp-bc-float [hidden] { display: none !important; }
+
+/* Bar */
+.amp-bc-float__bar {
+  pointer-events: auto;
+  width: min(760px, calc(100vw - 32px));
+  background: #001e41;
+  border-radius: 28px;
+  padding: 10px 12px;
+  box-shadow: 0 8px 28px rgba(0, 30, 65, 0.35);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+.amp-bc-float__form {
+  flex: 1 1 280px;
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 22px;
+  padding: 0 6px 0 16px;
+}
+.amp-bc-float__input {
+  flex: 1;
+  min-width: 0;
+  height: 40px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #ffffff;
+  font: 400 16px "Open Sans", Arial, sans-serif;
+}
+.amp-bc-float__input::placeholder { color: rgba(255, 255, 255, 0.75); }
+.amp-bc-float__send {
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #001e41;
+  cursor: pointer;
+  font-size: 14px;
+}
+.amp-bc-float__chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.amp-bc-float__chip {
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: transparent;
+  color: #ffffff;
+  border-radius: 18px;
+  padding: 8px 14px;
+  font: 400 14px "Open Sans", Arial, sans-serif;
+  cursor: pointer;
+}
+.amp-bc-float__chip:hover { background: rgba(255, 255, 255, 0.16); }
+
+/* Panel with the concierge inside */
+.amp-bc-float__panel {
+  pointer-events: auto;
+  position: relative;
+  width: min(440px, calc(100vw - 32px));
+  height: min(640px, calc(100vh - 48px));
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 12px 40px rgba(0, 30, 65, 0.35);
+  overflow: hidden;
+  margin-left: auto;                           /* sit at the bottom right when open */
+  margin-right: 16px;
+}
+.amp-bc-float__mount { height: 100%; overflow: auto; }
+.amp-bc-float__close {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  z-index: 60;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(0, 30, 65, 0.08);
+  color: #001e41;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* Inside the narrow panel, give the concierge the same fonts and colours as the embedded one */
+#amp-bc-float-mount .example-heading {
+  font-family: "Hurme Geometric Sans-SemiBold", "Open Sans", Arial, sans-serif !important;
+  font-weight: 600 !important;
+  font-size: 28px !important;
+  color: #001e41 !important;
+}
+#amp-bc-float-mount .bc-prompt-suggestion-button { background: #ffffff !important; color: #001e41 !important; border: 1px solid #001e41 !important; }
+#amp-bc-float-mount .bc-prompt-suggestion-button:hover { background: #6ce1ff !important; color: #001e41 !important; }
+#amp-bc-float-mount .disclaimer-text { color: #4c617a !important; }
+#amp-bc-float-mount .bc-card__text { color: #ffffff !important; font-size: 15px !important; font-weight: 600 !important; font-family: "Open Sans", Arial, sans-serif !important; }
+#amp-bc-float-mount .example-subheading,
+#amp-bc-float-mount .chat-input,
+#amp-bc-float-mount .message-text,
+#amp-bc-float-mount .message-content {
+  font-family: "Open Sans", Arial, sans-serif !important;
+  font-size: 16px !important;
+  color: #4c617a !important;
+}
+
+@media (max-width: 767px) {
+  .amp-bc-float { bottom: 8px; }
+  .amp-bc-float__panel { margin-right: 0; width: calc(100vw - 16px); height: calc(100vh - 24px); }
+}
+
+/* Same two fixes inside the floating panel */
+#amp-bc-float-mount .brand-concierge-container,
+#amp-bc-float-mount .brand-concierge-container.active-state { background: transparent !important; }
+#amp-bc-float-mount .privacy-notice-message { display: none !important; }
+#amp-bc-float-mount .brand-concierge-container::after { background: none !important; display: none !important; }
