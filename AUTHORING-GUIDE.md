@@ -33,4 +33,3 @@ Copy (title, subheading, prompt cards, placeholder, fine print) lives in `styleC
 ## What is not confirmed yet
 
 - Whether the Existing Customer concierge needs its own datastream or can share the New Customer one. Adobe will confirm when it is created.
-- The chat itself: it currently returns "Datastream config not found" and is with the Brand Concierge team.

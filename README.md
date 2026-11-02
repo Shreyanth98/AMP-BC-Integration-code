@@ -40,31 +40,28 @@ Nothing here needs access to AMP's codebase. Reece places the files and snippets
 
 ## New and existing customers
 
-Only one Lifetime Boost concierge exists today ("AMP - Lifetime Boost - New Customer - PoC v1.0"), so both variants use it and the
-same datastream ID. The two folders are identical apart from their names, so the page structure is ready. Once the Existing Customer
-concierge is created, Adobe will give you its own datastream ID, and only the `datastreamId` line in `existing-customer/index.html`
-changes. Please tell us how the site tells the two audiences apart (for example signed in, a different page, or a cookie), because
-Kyle's sheet lists the same page for both. Concierges can also be tied to pages by rule (domain and path, up to 10 rules per
-concierge) in Deployments, Surface Config. Adobe will set those once the pages are agreed.
+An Existing Customer concierge now exists in Composer. Until its own datastream is agreed, both variants use the New Customer
+concierge and the same datastream ID, so the page structure is ready and only the `datastreamId` line in
+`existing-customer/index.html` will change later. A concierge answers for the datastream it is linked to, so the Existing Customer
+concierge will most likely need its own UAT datastream with Brand Concierge enabled (the same step Vinod did for the first one).
+Adobe will confirm that before anything is created. To decide this we need to know how the site tells the two audiences apart (for
+example signed in, a different page, or a cookie), because Kyle's sheet lists the same page for both. Concierges can also be tied to
+pages by rule (domain and path, up to 10 rules per concierge) in Deployments, Surface Config. Adobe sets those once the pages are agreed.
+Please do not edit the page rules or the datastream in Composer without telling Adobe first, because saving the page rules can clear
+the datastream link on that concierge.
 
 ## Values already filled in
 
 | Value | Where | Notes |
 |---|---|---|
-| Datastream ID `09688f37-1fb3-4085-8d12-1ddf16422fe3` | `alloy("configure", ...)` in every `index.html` and `floating.html` | The datastream AMP's UAT site uses, and the same value Composer's deploy script uses |
+| Datastream ID `6943a42a-d5c6-4361-9266-469e59d4d01c` | `alloy("configure", ...)` in every `index.html` and `floating.html` | The datastream AMP's UAT site uses, with Brand Concierge enabled in Data Collection |
 | Org ID `11BA6EA55322342B0A490D44@AdobeOrg` | same | AMP SERVICES LIMITED |
 | `conversation: { region: "aus5" }` | same | Routes Brand Concierge to the Australian region. Keep it |
 | Web SDK 2.35.1 | script tag | Use 2.35.1 or later |
 
-The Existing Customer concierge does not exist yet, so both variants use the New Customer concierge for now. When it is created,
-only the datastream binding in Composer changes. The page files stay as they are.
+## Datastream and chat
 
-## Known issue on Adobe's side (read before testing)
-
-At the time of writing, Brand Concierge answers with "Datastream config not found" when a page asks a question, so the chat
-shows "I'm sorry, something went wrong". The welcome screen, cards, fonts and layout all work. Adobe is fixing the datastream
-registration for the concierge in AMP's Australian region and will tell you when to retest. You do not need to change anything in
-the files for this. If you see that message, it is the known issue and not an integration mistake.
+Chat answers when the page uses the UAT datastream `6943a42a-d5c6-4361-9266-469e59d4d01c`. Brand Concierge is enabled on it in Data Collection (done by AMP), and the concierge "AMP - Lifetime Boost - New Customer - PoC v1.0" is linked to it in Composer. If a page shows "Datastream config not found", the page is using a different datastream (for example the DEV one). If it shows "Concierge not found", the datastream has no concierge linked yet.
 
 ## Fonts
 
