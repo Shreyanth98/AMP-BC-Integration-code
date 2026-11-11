@@ -1,85 +1,78 @@
 # AMP Brand Concierge: integration pack for the AMP site
 
-This pack adds the Lifetime Boost concierge to the AMP site in the two places Kyle's design asks for. It follows the same delivery
-pattern as other Brand Concierge customers: the Adobe Web SDK, the Brand Concierge web client, one styling file and a mount point.
-Nothing here needs access to AMP's codebase. Reece places the files and snippets.
-
-## What goes where
-
-1. Embedded component: the Lifetime Boost landing page, in a block directly under the hero banner (above "Super's Boost-kept
-   secret is out"). There is one variant for new customers and one for existing customers.
-2. Floating component: every page. A dark bar fixed at the bottom with a chat box and two suggestion chips. It switches itself off
-   on a page that already has the embedded component.
+This pack adds the Lifetime Boost concierge to the AMP site. It carries no styling of its own. The look, wording, welcome message,
+prompt cards, input placeholder and fine print all come from the concierge in Composer, through one file per concierge:
+`styleConfigurations.js`, which is the Composer export, unchanged. The floating bar reads its colours and fonts from that same file.
 
 ## What is in the folder
 
 | Path | What it is | Where it goes |
 |---|---|---|
-| `new-customer/index.html` and `new-customer/styleConfigurations.js` | Reference page and styling file for the new customer concierge | Copy the marked parts of the page into the template. Host the styling file on the AMP site |
-| `existing-customer/index.html` and `existing-customer/styleConfigurations.js` | The same for the existing customer concierge | Same |
-| `amp-bc-overrides.css` | Font and colour rules for the embedded component (Hurme Geometric Sans heading, Open Sans body) | Add to the site stylesheet |
+| `new-customer/index.html`, `new-customer/styleConfigurations.js` | Reference page and Composer export for the New Customer concierge | Copy the marked parts of the page into the template. Host the config file on the AMP site |
+| `existing-customer/index.html`, `existing-customer/styleConfigurations.js` | The same for the Existing Customer concierge | Same |
 | `amp-bc-floating.js`, `amp-bc-floating.css`, `floating.html` | The floating bar and panel, plus a reference page | Host on the AMP site and load on every page |
+| `AUTHORING-GUIDE.md` | How a page loads the right concierge | Reference |
 
-## Steps for the embedded component (do once per variant)
+There is no stylesheet for the embedded component. Nothing is added to the site CSS.
 
-1. The page needs the Adobe Web SDK (`alloy`). If the AMP site already loads it under another instance name, change `instanceName`
-   in the bootstrap call. If not, use the base code and the `alloy.min.js` line from `index.html`.
-2. Call `alloy("configure", ...)` once, with the datastream ID and AMP's org ID (see "Values to fill in"). The configure call must include `conversation: { region: "aus5" }`, which routes Brand Concierge to the Australian region, and the page must load Web SDK 2.35.1 or later (the reference pages use 2.35.1).
+## How a change in Composer reaches the AMP site (manual route, agreed with the product team)
+
+1. In Composer, open the concierge, Deployments, Style Configuration, and choose Download style configuration.
+2. Replace the matching `styleConfigurations.js` on the AMP site with the downloaded file (New Customer file for the New Customer concierge, Existing Customer file for the other).
+3. Reload the page. The embedded component and the floating bar both show the new look and wording.
+
+Answers, instructions, guardrails, suggestions and knowledge are not in this file. They run in Brand Concierge and change on the site
+straight away when edited in Composer, with no file to replace.
+
+## Steps for the embedded component (once per variant)
+
+1. The page needs the Adobe Web SDK (`alloy`). If the AMP site loads it under another instance name, change `instanceName` in the bootstrap call. Otherwise use the base code and the `alloy.min.js` line from `index.html` (Web SDK 2.35.1 or later).
+2. Call `alloy("configure", ...)` once, with the datastream ID and org ID (see below). Keep `conversation: { region: "aus5" }`.
 3. Load that variant's `styleConfigurations.js`, then the Brand Concierge web client:
    `https://experience.adobe.net/solutions/experience-platform-brand-concierge-web-agent/static-assets/main.js`
-4. Add the mount element where the concierge should appear, inside the wrapper: `<section class="amp-bc-section"><div id="amp-bc-mount"></div></section>`. The wrapper gives the block its background and spacing.
+4. Add the mount element where the concierge should appear: `<div id="amp-bc-mount"></div>`
 5. Call the bootstrap after it:
    `window.adobe.concierge.bootstrap({ instanceName: "alloy", stylingConfigurations: window.styleConfiguration, selector: "#amp-bc-mount", stickySession: false });`
-6. Add `amp-bc-overrides.css` to the site stylesheet.
 
 ## Steps for the floating component
 
-1. On every page, after the Web SDK, a `styleConfigurations.js` and `main.js`, load `amp-bc-floating.css` and `amp-bc-floating.js`.
-2. Nothing else. The script adds the bar and opens the panel when a visitor asks a question or taps a chip.
-3. Add `?amp-bc-open` to a page URL to open the panel straight away when testing.
-
-## New and existing customers
-
-An Existing Customer concierge now exists in Composer. Until its own datastream is agreed, both variants use the New Customer
-concierge and the same datastream ID, so the page structure is ready and only the `datastreamId` line in
-`existing-customer/index.html` will change later. A concierge answers for the datastream it is linked to, so the Existing Customer
-concierge will most likely need its own UAT datastream with Brand Concierge enabled (the same step Vinod did for the first one).
-Adobe will confirm that before anything is created. To decide this we need to know how the site tells the two audiences apart (for
-example signed in, a different page, or a cookie), because Kyle's sheet lists the same page for both. Concierges can also be tied to
-pages by rule (domain and path, up to 10 rules per concierge) in Deployments, Surface Config. Adobe sets those once the pages are agreed.
-Please do not edit the page rules or the datastream in Composer without telling Adobe first, because saving the page rules can clear
-the datastream link on that concierge.
+1. On every page, after the Web SDK, `styleConfigurations.js` and `main.js`, load `amp-bc-floating.css` and `amp-bc-floating.js`.
+2. Nothing else. The script adds the bar and opens the panel when a visitor asks a question or taps a chip. It stays off pages that have the embedded component.
+3. The bar's colours, fonts, corner radius, input size and button colours come from the `theme` section of `styleConfigurations.js`, and its placeholder from `text["input.placeholder"]`. The two chips ("What is Lifetime Boost?", "Am I eligible for Lifetime Boost?") are set at the top of `amp-bc-floating.js` until Kyle confirms them.
+4. Add `?amp-bc-open` to a page URL to open the panel straight away when testing.
 
 ## Values already filled in
 
 | Value | Where | Notes |
 |---|---|---|
-| Datastream ID `6943a42a-d5c6-4361-9266-469e59d4d01c` | `alloy("configure", ...)` in every `index.html` and `floating.html` | The datastream AMP's UAT site uses, with Brand Concierge enabled in Data Collection |
+| Datastream ID `6943a42a-d5c6-4361-9266-469e59d4d01c` | `alloy("configure", ...)` in every page | AMP's UAT datastream with Brand Concierge enabled. One datastream serves both concierges |
 | Org ID `11BA6EA55322342B0A490D44@AdobeOrg` | same | AMP SERVICES LIMITED |
 | `conversation: { region: "aus5" }` | same | Routes Brand Concierge to the Australian region. Keep it |
-| Web SDK 2.35.1 | script tag | Use 2.35.1 or later |
+| Web SDK 2.35.1 | script tag | 2.35.1 or later |
 
-## Datastream and chat
+## Which concierge answers on which page
 
-Chat answers when the page uses the UAT datastream `6943a42a-d5c6-4361-9266-469e59d4d01c`. Brand Concierge is enabled on it in Data Collection (done by AMP), and the concierge "AMP - Lifetime Boost - New Customer - PoC v1.0" is linked to it in Composer. If a page shows "Datastream config not found", the page is using a different datastream (for example the DEV one). If it shows "Concierge not found", the datastream has no concierge linked yet.
+A concierge answers only on pages that match its page rules in Composer (Deployments, Surface Config Management). The New Customer
+concierge has a rule for the whole AMP UAT domain, `ampau-uat.aem-saas.digital-np.ampaws.com.au` with any path, so any UAT page that loads this code answers.
+If a page shows "I'm sorry, something went wrong", check first that the page's domain and path match a rule. Other messages: "Datastream config not found" means
+the page uses a different datastream (for example the DEV one); "Concierge not found" means the datastream has no concierge linked.
+Please do not edit the page rules or the datastream in Composer without telling Adobe first, because saving page rules can clear the datastream link.
 
 ## Fonts
 
-Hurme Geometric Sans (SemiBold, 44px headings) and Open Sans (Regular, 18px body) are already loaded on the AMP site, so nothing is
-uploaded to Brand Concierge. The CSS refers to them by the same names the site uses. If those names differ on the live pages, change
-them in `amp-bc-overrides.css`. On mobile the heading drops to 28px and body copy to 16px.
+The font comes from the `--font-family` value in the Composer style configuration (Hurme Geometric Sans, with a generic fallback). The font is already loaded on the AMP
+site, so nothing is uploaded to Brand Concierge. On a page that does not load it, the browser falls back to a generic sans-serif.
 
 ## Still to be confirmed with Kyle
 
-- The suggestions: cards 2 to 4 and the two floating chips (marked TBC in the design) use Adobe's suggestions for now.
-- The fine print: the design text has typos ("if subject", "desitive") and the phrase "AI responses are not your Content". The
-  pack uses corrected wording without that phrase. The Privacy Policy is `https://www.amp.com.au/privacy`. The link named
-  "Generative AI Terms" points to Adobe's generative AI guidelines. Kyle should confirm that or give an AMP page.
-- Whether suggestions should differ by page. In this pack they are the same everywhere.
+- The suggestions: the four cards and the two floating chips use Adobe's suggestions for now.
+- The fine print in Composer: its text ends with the placeholder `{Terms}` while the link is named "Terms of Use", so the page shows `{Terms}` as plain text. The placeholder in the text must match the link name exactly.
+- The privacy notice in Composer still holds template wording ("YourBrand"). It shows in the chat as saved, so it needs AMP's wording.
+- The input placeholder reads "Any any question" in Composer.
 
 ## Testing on UAT
 
-1. Load the Lifetime Boost page in UAT. The block should show the title, subheading, four cards, the input and the fine print.
-2. Ask "What is Lifetime Boost?" and confirm an answer with links.
+1. Load the Lifetime Boost page in UAT. The block shows the title, subheading, four cards, the input and the fine print as in the Composer preview.
+2. Ask "What is Lifetime Boost?" and confirm an answer with sources.
 3. Open any other UAT page. The floating bar should appear, and typing a question should open the panel with an answer.
-4. Check the fonts on desktop and at phone width.
+4. After any change in Composer, download the style configuration, replace the file, and reload to confirm the page matches.

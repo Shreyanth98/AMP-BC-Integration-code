@@ -1,9 +1,14 @@
 /*
  * AMP Brand Concierge: floating component (reference implementation for Reece).
  *
- * What it is: a dark bar fixed at the bottom of the page with a chat box ("Ask a question") and two suggestion chips,
- * as in Kyle's "Brand Concierge floating Component" design. Typing a question or tapping a chip opens a panel
- * and starts the same concierge with that first message.
+ * What it is: a bar fixed at the bottom of the page with a chat box and two suggestion chips, as in Kyle's
+ * "Brand Concierge floating Component" design. Typing a question or tapping a chip opens a panel and starts the same
+ * concierge with that first message.
+ *
+ * Look: this file has no colours or fonts of its own. It reads them from the Composer style configuration
+ * (window.styleConfiguration.theme) and applies the same CSS variables to the bar, so the bar always matches the main
+ * chat. The placeholder text also comes from the configuration. When Kyle changes the look in Composer, replace
+ * styleConfigurations.js with the new download and the bar follows.
  *
  * Brand Concierge has no built-in floating launcher, so this bar and panel are host-side. Only the panel's inside is
  * Brand Concierge (loaded through the same window.adobe.concierge.bootstrap call as the embedded component).
@@ -14,10 +19,16 @@
 (function () {
   "use strict";
 
-  // Edit these two lines when Kyle confirms the suggestions (both are TBC in the design spec).
+  // The two chips are TBC in Kyle's design spec. Change them here when he confirms them.
   var SUGGESTIONS = ["What is Lifetime Boost?", "Am I eligible for Lifetime Boost?"];
-  var PLACEHOLDER = "Ask a question";
   var INSTANCE_NAME = "alloy";
+
+  // Wording and look come from the Composer style configuration.
+  var CFG = window.styleConfiguration || {};
+  var TEXT = CFG.text || {};
+  var THEME = CFG.theme || {};
+  var PLACEHOLDER = TEXT["input.placeholder"] || "Ask a question";
+  var SEND_LABEL = TEXT["input.send.aria"] || "Send message";
 
   if (document.getElementById("amp-bc-mount")) return;          // embedded page: no floating bar
   if (document.getElementById("amp-bc-floating")) return;       // already added
@@ -33,6 +44,9 @@
 
   var root = el("div", "amp-bc-float");
   root.id = "amp-bc-floating";
+  Object.keys(THEME).forEach(function (name) {          // same CSS variables the main chat uses
+    if (name.indexOf("--") === 0) root.style.setProperty(name, THEME[name]);
+  });
 
   // Bar: chat box + chips
   var bar = el("div", "amp-bc-float__bar");
@@ -43,7 +57,7 @@
   input.setAttribute("aria-label", PLACEHOLDER);
   var send = el("button", "amp-bc-float__send");
   send.type = "submit";
-  send.setAttribute("aria-label", "Send message");
+  send.setAttribute("aria-label", SEND_LABEL);
   send.innerHTML = "&#10148;";
   form.appendChild(input);
   form.appendChild(send);
@@ -90,7 +104,7 @@
     if (firstMessage) mount.setAttribute("data-initial-message", firstMessage);
     window.adobe.concierge.bootstrap({
       instanceName: INSTANCE_NAME,
-      stylingConfigurations: window.styleConfiguration,
+      stylingConfigurations: CFG,
       selector: "#amp-bc-float-mount",
       stickySession: true                      // keep the conversation when the visitor changes page
     });

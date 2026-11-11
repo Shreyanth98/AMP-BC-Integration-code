@@ -6,14 +6,10 @@
   <title>AMP Brand Concierge floating</title>
 
   <!--
-    AMP Brand Concierge: reference host page.
-    This file shows the exact order of the integration. On the real AMP page, copy only the marked parts:
-      1. Web SDK base code and the alloy.min.js script (skip if the AMP page already loads the Web SDK as "alloy")
-      2. alloy("configure", ...)           with AMP's datastream ID
-      3. styleConfigurations.js, then main.js
-      4. the mount element and the bootstrap call, placed where the concierge should appear
-      5. amp-bc-overrides.css in the site stylesheet
-    There is no mock of the AMP site in this file. It only hosts the concierge so it can be checked on its own.
+    AMP Brand Concierge: reference host page for the floating bar.
+    The bar takes its colours and fonts from styleConfigurations.js (the Composer export), so it matches the main chat.
+    On the real AMP page, add: the Web SDK and its configure call, styleConfigurations.js, main.js, then
+    amp-bc-floating.css and amp-bc-floating.js. There is no mount element: the script adds the bar.
   -->
 
   <!-- 1. Web SDK base code (creates the "alloy" command queue) -->
@@ -33,8 +29,7 @@
   <script src="new-customer/styleConfigurations.js"></script>
   <script src="https://experience.adobe.net/solutions/experience-platform-brand-concierge-web-agent/static-assets/main.js"></script>
 
-  <!-- 5. Site styling for fonts and colours (Hurme Geometric Sans and Open Sans already load on amp.com.au) -->
-  <link rel="stylesheet" href="amp-bc-overrides.css">
+  <!-- Floating bar layout (colours and fonts come from the style configuration) -->
   <link rel="stylesheet" href="amp-bc-floating.css">
 
   <!-- 2. Web SDK configuration -->
