@@ -79,16 +79,17 @@
 /* Chips: same as the main chat's suggestion buttons */
 .amp-bc-float__chips { display: flex; flex-wrap: wrap; gap: var(--prompt-suggestions-container-gap, 12px); }
 .amp-bc-float__chip {
-  border: 1px solid var(--prompt-suggestion-border-color, transparent);
-  background: var(--prompt-suggestion-button-background, #d9d9d9);
-  color: var(--prompt-suggestion-button-text-color, #626262);
-  border-radius: var(--prompt-suggestion-button-border-radius, 16px);
+  border: var(--prompt-suggestion-button-border-width, 1px) var(--prompt-suggestion-button-border-style, solid) var(--prompt-suggestion-button-border-color, rgba(0, 0, 0, 0.1));
+  background: var(--prompt-suggestion-button-background, #ffffff);
+  color: var(--prompt-suggestion-button-text-color, #001e41);
+  border-radius: var(--prompt-suggestion-button-border-radius, 20px);
   padding: var(--prompt-suggestion-button-padding, 8px 16px);
   font-family: var(--font-family, sans-serif);
-  font-size: 14px;
+  font-size: var(--prompt-suggestion-button-font-size, 14px);
+  font-weight: var(--prompt-suggestion-button-font-weight, 400);
   cursor: pointer;
 }
-.amp-bc-float__chip:hover { background: var(--prompt-suggestion-button-background-hover, #d9d9d9); }
+.amp-bc-float__chip:hover { background: var(--prompt-suggestion-button-background-hover, #f5f5f5); }
 
 /* Panel with the concierge inside. The concierge styles itself from the same configuration. */
 .amp-bc-float__panel {
