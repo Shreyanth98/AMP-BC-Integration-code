@@ -1,7 +1,8 @@
 /*
  * AMP Brand Concierge: floating component layout (pairs with amp-bc-floating.js).
- * This file sets position and size only. Every colour, font, radius and shadow is a variable from the Composer
+ * This file sets position and size only. Every colour, font and radius is a variable from the Composer
  * style configuration (theme), which amp-bc-floating.js applies to the bar, so the bar matches the main chat.
+ * The one exception is the outer shadow of the bar and panel, set here so it shows evenly on all sides.
  * The fallbacks after each variable are used only if the configuration is missing.
  */
 
@@ -16,6 +17,9 @@
   pointer-events: none;                       /* only the bar and panel take clicks */
   font-family: var(--font-family, sans-serif);
   line-height: var(--line-height-body, 1.5);
+  /* Shadow around the whole widget. No x or y offset, so it shows evenly on all four sides including the top.
+     This is deliberately not the Composer card shadow (that one is offset downwards). No border is drawn. */
+  --amp-bc-float-shadow: 0 0 14px 3px rgba(0, 0, 0, 0.22);
 }
 .amp-bc-float [hidden] { display: none !important; }
 
@@ -27,7 +31,8 @@
   background: var(--main-container-background, #ffffff);
   border-radius: var(--input-border-radius, 8px);
   padding: 12px;
-  box-shadow: var(--multimodal-card-box-shadow, 0 4px 8px rgba(0, 0, 0, 0.1));
+  border: 0;
+  box-shadow: var(--amp-bc-float-shadow);
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -98,8 +103,9 @@
   width: min(440px, calc(100vw - 32px));
   height: min(640px, calc(100vh - 48px));
   background: var(--main-container-background, #ffffff);
+  border: 0;
   border-radius: var(--border-radius-card, 20px);
-  box-shadow: var(--multimodal-card-box-shadow, 0 4px 8px rgba(0, 0, 0, 0.1));
+  box-shadow: var(--amp-bc-float-shadow);
   overflow: hidden;
   margin-left: auto;                           /* sit at the bottom right when open */
   margin-right: 16px;

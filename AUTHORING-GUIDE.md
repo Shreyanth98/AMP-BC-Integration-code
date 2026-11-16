@@ -1,35 +1,56 @@
-# Authoring guide: loading the right Brand Concierge on each page
+# Authoring guide: setting up a new Brand Concierge on the AMP site
 
-Question from the pilot check-in: does the concierge work like a component that can load the right concierge for each page?
+Purpose: show how simple it is to add a new concierge once the first one is in place. The guide separates what Adobe did once
+(one-time setup, already done for the pilot) from what is repeated for every new concierge (about six steps, no code changes).
 
-Short answer: yes. The concierge is a small, reusable block (a mount element plus a few scripts). Which concierge answers on a page is decided by the datastream that page passes to the Web SDK, and optionally by page rules set in Composer.
+## At a glance
 
-## How a page picks its concierge
-
-1. **Datastream.** In Composer, each concierge has a Datastream Config (Deployments tab). When a page calls `alloy("configure", { datastreamId: ... })`, Brand Concierge answers with the concierge bound to that datastream.
-2. **Page rules.** The Surface Config Management dialog on each concierge takes page rules (domain and path, up to 10 per concierge). Use these when you want one concierge on some pages and another on others.
-3. **Region.** `alloy("configure", { conversation: { region: "aus5" } })` sends calls to the Australian region. Keep it on every page.
-
-For AMP, both audiences use the New Customer concierge for now. When the Existing Customer concierge exists, give the existing customer pages that concierge's datastream binding (or a page rule), and change nothing else.
-
-## What an AEM component needs
-
-One reusable component or experience fragment is enough:
-
-| Part | What it holds | Author controls |
+| | One-time setup (done) | Repeat for each new concierge |
 |---|---|---|
-| Mount element | `<div id="amp-bc-mount"></div>` | Where it sits on the page (under the hero banner) |
-| Scripts (page head or component) | Web SDK 2.35.1, the Brand Concierge `main.js`, `styleConfigurations.js` | Nothing. Same for every page |
-| Configure call | Datastream ID, org ID, `conversation.region` | Which datastream, if a page needs a different concierge |
-| Bootstrap call | `window.adobe.concierge.bootstrap({ instanceName: "alloy", stylingConfigurations: window.styleConfiguration, selector: "#amp-bc-mount", stickySession: false })` | Nothing |
-| Styling | None in the page code. The look comes from `styleConfigurations.js` (the Composer export) | Look and wording are changed in Composer, then the file is replaced |
+| Site | Web SDK, Brand Concierge client script, floating bar files, datastream with Brand Concierge enabled, region setting | Nothing |
+| Composer | Organisation access, datastream linked | Create concierge, write instructions and knowledge, set page rules, style it, download the style file |
+| Page | Mount element and bootstrap block added to the page template | Add one `styleConfigurations.js` file for the new concierge and point the page at it |
+| Code changes | Written once, reused | None |
 
-The floating bar (`amp-bc-floating.js` and `.css`) is separate. It loads on every page and stays off pages that have the embedded block.
+## Part 1: One-time setup (already done by Adobe for the pilot)
 
-## What authors can change without code
+1. **Web SDK on the page.** Adobe Web SDK 2.35.1 (`alloy`), with one `configure` call holding the datastream ID, org ID and `conversation: { region: "aus5" }`. This is in the site template, so every page has it.
+2. **Datastream.** One AMP UAT datastream with Brand Concierge enabled. Every concierge shares it, so a new concierge does not need a new datastream.
+3. **Brand Concierge client script.** The `main.js` from Adobe's CDN, loaded once in the template.
+4. **Mount block.** `<div id="amp-bc-mount"></div>` where the concierge should sit on the page, followed by the bootstrap call:
+   `window.adobe.concierge.bootstrap({ instanceName: "alloy", stylingConfigurations: window.styleConfiguration, selector: "#amp-bc-mount", stickySession: false })`
+5. **Floating bar.** `amp-bc-floating.css` and `amp-bc-floating.js` loaded on every page. It stays off pages that have the embedded block. It takes its colours and fonts from the same style file, so no styling lives in the page code.
+6. **Fonts.** AMP's font is already loaded on the AMP site. Nothing is uploaded to Brand Concierge.
 
-Look and copy (title, subheading, prompt cards, placeholder, fine print, fonts, colours) are edited in Composer and reach the page through `styleConfigurations.js`: download it from Deployments, Style Configuration, and replace the file. Answers and behaviour are edited in Composer and need no file change.
+None of this is touched again when a new concierge is added.
 
-## What is not confirmed yet
+## Part 2: Repeat for each new concierge
 
-- Whether the Existing Customer concierge needs its own datastream or can share the New Customer one. Adobe will confirm when it is created.
+1. **Create the concierge in Composer.** Name it, then add its instructions, skills and knowledge sources. Answers, guardrails and suggestions run on Adobe's side and are live as soon as they are saved.
+2. **Link the datastream.** Deployments, Datastream Config: enter the shared AMP datastream ID. Check it is still there after any later save.
+3. **Set page rules.** Deployments, Surface Config Management: add the domain and path of each page where this concierge should answer (up to 10 rules). A concierge answers only on pages that match its rules. A page that matches no rule shows "I'm sorry, something went wrong". If two concierges both match a page, give each a distinct path so there is no overlap.
+4. **Style it.** Deployments, Edit JSON Config: set the welcome heading, prompt cards, placeholder, fine print and colours. Fine print links use a placeholder in braces, for example `{Terms}`, and the text inside the braces must match the link name exactly.
+5. **Download the style file.** Deployments, Download style configuration. Save it as `styleConfigurations.js` in a new folder for that concierge, next to the existing `new-customer` and `existing-customer` folders.
+6. **Point the page at it.** On the pages for that concierge, load its `styleConfigurations.js` before `main.js`. Nothing else on the page changes.
+
+Then test: open a page that matches the rules, ask a question, and confirm the look, the cards and the fine print match the Composer preview.
+
+## What authors change without code
+
+| Change | Where | Does the site file need replacing? |
+|---|---|---|
+| Answers, instructions, guardrails, suggestions, knowledge | Composer | No. Live straight away |
+| Look and wording (heading, cards, placeholder, fine print, colours, fonts) | Composer, then download the style file | Yes, replace that concierge's `styleConfigurations.js` |
+| Which pages a concierge appears on | Composer page rules | No |
+| Which concierge a page uses | Page rules, or the page loading a different style file | Only if the page's style file changes |
+
+## Which concierge answers on a page
+
+- The concierge is chosen by the page rules in Composer. The datastream is shared, so it does not decide this.
+- The New Customer concierge currently has a rule for the whole AMP UAT domain. Before the Existing Customer concierge is switched on for its pages, the New Customer rule needs narrowing so the two do not overlap.
+- Messages to know: "Datastream config not found" means the page uses a different datastream. "Concierge not found" means the datastream has no concierge linked.
+
+## Notes
+
+- The embedded block and the floating bar both read the same style file, so a change in Composer reaches both once the file is replaced.
+- Please do not edit page rules or the datastream in Composer without telling Adobe first, because saving page rules can clear the datastream link.

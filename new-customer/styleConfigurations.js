@@ -118,7 +118,7 @@ window.styleConfiguration = {
     }
   },
   "disclaimer": {
-    "text": "Use of this beta AI chatbot is subject to AMP's Privacy Policy. Don't share sensitive information. AI responses may be inaccurate, and do not represent personal advice. Learn more at Generative AI {Terms}",
+    "text": "Use of this beta AI chatbot is subject to AMP's Privacy Policy. Don't share sensitive data. AI responses may be inaccurate, and any offers provided are non-binding. Learn more at Generative AI {Terms}",
     "links": [
       {
         "text": "Terms",
@@ -128,8 +128,8 @@ window.styleConfiguration = {
   },
   "text": {
     "welcome.heading": "Short on time?",
-    "welcome.subheading": "Choose a prompt or ask a question to understand more about Lifetime Boost",
-    "input.placeholder": "Any question?",
+    "welcome.subheading": "Any questions to find out how Lifetime Boost can boost your super",
+    "input.placeholder": "Ask any question",
     "input.messageInput.aria": "Type your message here",
     "input.send.aria": "Send message",
     "input.aiChatIcon.tooltip": "Chat with AMP",
