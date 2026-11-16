@@ -170,7 +170,7 @@ window.styleConfiguration = {
       },
       {
         "text": "Am I eligible for Lifetime Boost?",
-        "systemPrompt": "List the benefits of AMP's Lifetime Boost for retirement planning.",
+        "systemPrompt": "Am I eligible for Lifetime Boost?",
         "imageUrl": "https://www.amp.com.au/content/dam/amp-2024/images/people/super/the-sooner-you-start-the-bigger-you-boost-736x736.png",
         "imageName": "",
         "image": "https://www.amp.com.au/content/dam/amp-2024/images/people/super/the-sooner-you-start-the-bigger-you-boost-736x736.png",
@@ -178,7 +178,7 @@ window.styleConfiguration = {
       },
       {
         "text": "How do I activate Lifetime Boost?",
-        "systemPrompt": "Provide guidance on the best time to start using AMP's Lifetime Boost.",
+        "systemPrompt": "How do I activate Lifetime Boost?",
         "imageUrl": "https://www.amp.com.au/content/dam/amp-2024/images/superannuation/people/lifetime-pension-hero-768x540.png",
         "imageName": "",
         "image": "https://www.amp.com.au/content/dam/amp-2024/images/superannuation/people/lifetime-pension-hero-768x540.png",
@@ -186,7 +186,7 @@ window.styleConfiguration = {
       },
       {
         "text": "How much could Lifetime Boost add to my retirement income?",
-        "systemPrompt": "Explain how AMP's Lifetime Boost can help increase Age Pension eligibility.",
+        "systemPrompt": "How much could Lifetime Boost add to my retirement income?",
         "imageUrl": "https://www.amp.com.au/content/dam/amp-2024/images/superannuation/graphics/lifetime-structure-infographic.png",
         "imageName": "",
         "image": "https://www.amp.com.au/content/dam/amp-2024/images/superannuation/graphics/lifetime-structure-infographic.png",
@@ -322,7 +322,7 @@ window.styleConfiguration = {
     "--card-text-border-radius": "0px",
     "--chat-container-bottom-background": "#ffffff",
     "--main-container-bottom-background": "#ffffff",
-    "--card-text-background": "#FFFFFF",
+    "--card-text-background": "#F6F3EA",
     "--product-card-title-font-weight": "600",
     "--product-card-title-color": "#001E41",
     "--product-card-button-font-weight": "600",

@@ -52,8 +52,16 @@ straight away when edited in Composer, with no file to replace.
 
 ## Which concierge answers on which page
 
-A concierge answers only on pages that match its page rules in Composer (Deployments, Surface Config Management). The New Customer
-concierge has a rule for the whole AMP UAT domain, `ampau-uat.aem-saas.digital-np.ampaws.com.au` with any path, so any UAT page that loads this code answers.
+A concierge answers only on pages that match its page rules in Composer (Deployments, Surface Config Management). All rules are on the AMP UAT domain,
+`ampau-uat.aem-saas.digital-np.ampaws.com.au`, and match the start of the path.
+
+| Concierge | Pages (path starts with) |
+|---|---|
+| New Customer | `/superannuation/lifetime-boost`, `/superannuation/join`, `/resources/insights-hub/`, plus a rule for any other page on the UAT domain so the floating bar works everywhere |
+| Existing Customer | `/superannuation/super-lifetime` (landing page and case studies), `/public/login/`, `/about-amp/news/` |
+
+These lists follow the Audience column in AMP's workbook (Brand Concierge Pilot URL and BC placement, URLS tab).
+Pages on the Existing Customer list also match the New Customer any-page rule. Until AMP confirms which concierge should answer outside the Lifetime Boost pages, that rule stays so no UAT page shows an error.
 If a page shows "I'm sorry, something went wrong", check first that the page's domain and path match a rule. Other messages: "Datastream config not found" means
 the page uses a different datastream (for example the DEV one); "Concierge not found" means the datastream has no concierge linked.
 Please do not edit the page rules or the datastream in Composer without telling Adobe first, because saving page rules can clear the datastream link.

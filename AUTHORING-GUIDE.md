@@ -47,7 +47,7 @@ Then test: open a page that matches the rules, ask a question, and confirm the l
 ## Which concierge answers on a page
 
 - The concierge is chosen by the page rules in Composer. The datastream is shared, so it does not decide this.
-- The New Customer concierge currently has a rule for the whole AMP UAT domain. Before the Existing Customer concierge is switched on for its pages, the New Customer rule needs narrowing so the two do not overlap.
+- Each concierge has its own list of paths. The pilot lists are in the README. When a new concierge is added, give it paths that no other concierge uses, and remove any catch-all rule from the first concierge so the two do not overlap.
 - Messages to know: "Datastream config not found" means the page uses a different datastream. "Concierge not found" means the datastream has no concierge linked.
 
 ## Notes
