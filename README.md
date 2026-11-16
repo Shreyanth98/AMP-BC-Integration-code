@@ -39,7 +39,8 @@ straight away when edited in Composer, with no file to replace.
 1. On every page, after the Web SDK, `styleConfigurations.js` and `main.js`, load `amp-bc-floating.css` and `amp-bc-floating.js`.
 2. Nothing else. The script adds the bar and opens the panel when a visitor asks a question or taps a chip. It stays off pages that have the embedded component.
 3. The bar's colours, fonts, corner radius, input size and button colours come from the `theme` section of `styleConfigurations.js`, and its placeholder from `text["input.placeholder"]`. The two chips are set at the top of `amp-bc-floating.js`. The outer shadow of the bar and panel is set in `amp-bc-floating.css` (`--amp-bc-float-shadow`) and spreads evenly on all four sides with no border.
-4. Add `?amp-bc-open` to a page URL to open the panel straight away when testing.
+4. On the AMP UAT site the bar sits at the bottom right and appears only on the pages in the table below. It does not appear on any other UAT page (the list is `PAGES` at the top of `amp-bc-floating.js`). Other hosts are not restricted.
+5. Add `?amp-bc-open` to a page URL to open the panel straight away when testing.
 
 ## Values already filled in
 

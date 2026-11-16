@@ -12,8 +12,10 @@
   left: 0;
   right: 0;
   bottom: 16px;
+  padding: 0 16px;                            /* gap to the right edge of the screen */
+  box-sizing: border-box;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;                  /* widget sits on the right-hand side */
   pointer-events: none;                       /* only the bar and panel take clicks */
   font-family: var(--font-family, sans-serif);
   line-height: var(--line-height-body, 1.5);
@@ -108,7 +110,6 @@
   box-shadow: var(--amp-bc-float-shadow);
   overflow: hidden;
   margin-left: auto;                           /* sit at the bottom right when open */
-  margin-right: 16px;
 }
 .amp-bc-float__mount { height: 100%; overflow: auto; }
 .amp-bc-float__close {
@@ -128,6 +129,6 @@
 }
 
 @media (max-width: 767px) {
-  .amp-bc-float { bottom: 8px; }
-  .amp-bc-float__panel { margin-right: 0; width: calc(100vw - 16px); height: calc(100vh - 24px); }
+  .amp-bc-float { bottom: 8px; padding: 0 8px; justify-content: center; }
+  .amp-bc-float__panel { width: calc(100vw - 16px); height: calc(100vh - 24px); }
 }

@@ -232,7 +232,7 @@ window.styleConfiguration = {
     "--color-primary": "#0018f0",
     "--color-text": "#522752",
     "--line-height-body": "1.5",
-    "--main-container-background": "#ffffff",
+    "--main-container-background": "#FFFFFF",
     "--input-height": "48px",
     "--input-height-mobile": "40px",
     "--input-border-radius": "25px",

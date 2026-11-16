@@ -1,7 +1,7 @@
 /*
  * AMP Brand Concierge: floating component (reference implementation for Reece).
  *
- * What it is: a bar fixed at the bottom of the page with a chat box and two suggestion chips, as in Kyle's
+ * What it is: a bar fixed at the bottom right of the page with a chat box and two suggestion chips, as in Kyle's
  * "Brand Concierge floating Component" design. Typing a question or tapping a chip opens a panel and starts the same
  * concierge with that first message.
  *
@@ -22,6 +22,18 @@
   // The two chips are TBC in Kyle's design spec. Change them here when he confirms them.
   var SUGGESTIONS = ["What is Lifetime Boost?", "Am I eligible for Lifetime Boost?"];
   var INSTANCE_NAME = "alloy";
+
+  // On the AMP UAT site the bar appears only on these pages (path starts with). Other hosts, such as the demo, are not restricted.
+  var AMP_UAT_HOST = "ampau-uat.aem-saas.digital-np.ampaws.com.au";
+  var PAGES = [
+    "/superannuation/lifetime-boost", "/superannuation/join", "/resources/insights-hub/",          // New Customer
+    "/superannuation/super-lifetime", "/public/login/", "/about-amp/news/"                          // Existing Customer
+  ];
+  if (window.location.hostname === AMP_UAT_HOST) {
+    var path = window.location.pathname;
+    var listed = PAGES.some(function (p) { return path.indexOf(p) === 0; });
+    if (!listed) return;
+  }
 
   // Wording and look come from the Composer style configuration.
   var CFG = window.styleConfiguration || {};
